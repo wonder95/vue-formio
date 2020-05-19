@@ -34,7 +34,9 @@
   "devDependencies": {
     "@types/node": "^4.9.3",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^13.0.0"
+    "typescript-eslint-parser": "^13.0.0",
+    "vuex-class": "^0.3.2",
+    "vuex-module-decorators": "^0.17.0"
   },
   "files": [
     "lib"
