@@ -2,25 +2,34 @@ import * as types from '@/store/types';
 import {Formio} from 'formiojs';
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 
-@Module({ namespaced: true, name: 'auth' })
+interface RoleItem {
+  _id: string;
+  title: String;
+  admin: Boolean;
+  default: Boolean;
+}
 
-class Auth extends VuexModule {
-  public user: {},
+interface RoleList {
+  [key: string]: RoleItem;
+}
+
+export class Auth extends VuexModule {
+  public user: {}
   public loggedIn: string = ''
-  public roles: {},
-  public forms: {},
-  public userRoles: {},
+  public roles: {}
+  public forms: {}
+  public userRoles: {}
 
   @Action
   setUser({ state, commit, dispatch }, user) {
     commit(types.SET_USER, user);
     dispatch('setLoggedIn', true);
     dispatch('setUserRoles', state.roles);
-  },
+  }
   @Action
   setLoggedIn({commit}, loggedIn) {
     commit(types.SET_LOGGED_IN, loggedIn);
-  },
+  }
   @Action
   getAccess({ commit, dispatch, getters }) {
     const projectUrl = Formio.getProjectUrl();
@@ -32,9 +41,9 @@ class Auth extends VuexModule {
           dispatch('setUserRoles', accessItems.roles);
         }
     });
-  },
+  }
   @Action
-  setUserRoles({ commit, getters }, roles) {
+  setUserRoles({ commit, getters }, roles: RoleList) {
     const roleEntries = Object.entries(roles);
     const userRoles = getters.getUser.roles;
     const newRolesObj = {};
@@ -44,24 +53,24 @@ class Auth extends VuexModule {
       newRolesObj[key] = !!userRoles.some(ur => roleData._id === ur);
     });
     commit(types.SET_USER_ROLES, newRolesObj);
-  },
+  }
 
   @Mutation
   [types.SET_USER](state, user) {
     state.user = user;
-  },
+  }
   @Mutation
   [types.SET_LOGGED_IN](state, loggedIn) {
     state.loggedIn = loggedIn;
-  },
+  }
   @Mutation
   [types.SET_ROLES](state, roles) {
     state.roles = roles;
-  },
+  }
   @Mutation
   [types.SET_FORMS](state, forms) {
     state.forms = forms;
-  },
+  }
   @Mutation
   [types.SET_USER_ROLES](state, userRoles) {
     state.userRoles = userRoles;
