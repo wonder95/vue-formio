@@ -13,9 +13,10 @@ interface RoleList {
   [key: string]: RoleItem;
 }
 
+@Module({  name: 'auth', namespaced: true })
 export class Auth extends VuexModule {
   public user: {}
-  public loggedIn: string = ''
+  public loggedIn: boolean
   public roles: {}
   public forms: {}
   public userRoles: {}
@@ -56,24 +57,24 @@ export class Auth extends VuexModule {
   }
 
   @Mutation
-  [types.SET_USER](state, user) {
-    state.user = user;
+  public [types.SET_USER](user) {
+    this.user = user;
   }
   @Mutation
-  [types.SET_LOGGED_IN](state, loggedIn) {
-    state.loggedIn = loggedIn;
+  public [types.SET_LOGGED_IN](loggedIn: boolean) {
+    this.loggedIn = loggedIn;
   }
   @Mutation
-  [types.SET_ROLES](state, roles) {
-    state.roles = roles;
+  public [types.SET_ROLES](roles: RoleList) {
+    this.roles = roles;
   }
   @Mutation
-  [types.SET_FORMS](state, forms) {
-    state.forms = forms;
+  public [types.SET_FORMS](forms) {
+    this.forms = forms;
   }
   @Mutation
-  [types.SET_USER_ROLES](state, userRoles) {
-    state.userRoles = userRoles;
+  public [types.SET_USER_ROLES](userRoles) {
+    this.userRoles = userRoles;
   }
 }
 
